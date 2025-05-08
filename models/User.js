@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
         {
             id: {
                 type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4, // Or use uuidv4()
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
             },
             username: {
@@ -29,7 +29,7 @@ export default (sequelize, DataTypes) => {
                 allowNull: false,
                 unique: true,
                 validate: {
-                    isEmail: true,
+                    isEmail: true,  
                 },
             },
         },
