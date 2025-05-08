@@ -1,11 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export default (sequelize, DataTypes) => {
     const User = sequelize.define(
         'User',
         {
             id: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4, // Or use uuidv4()
                 primaryKey: true,
-                autoIncrement: true,
             },
             username: {
                 type: DataTypes.STRING(50),
@@ -34,7 +36,7 @@ export default (sequelize, DataTypes) => {
         {
             tableName: 'users',
             timestamps: false,
-        }
+        }   
     );
 
     return User;
