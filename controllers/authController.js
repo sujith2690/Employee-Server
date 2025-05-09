@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import pkg from "jsonwebtoken";
 import dotenv from 'dotenv';
 dotenv.config();
-const User = db.User;
+const userModal = db.User;
 const jwt = pkg;
 
 export const signUpUser = async (req, res) => {
@@ -13,7 +13,7 @@ export const signUpUser = async (req, res) => {
             return res.status(400).json({ message: 'Please fill all the fields' });
         }
         // Check if user already exists
-        const existingUser = await User.findOne({ where: { email } });
+        const existingUser = await userModal.findOne({ where: { email } });
         if (existingUser) {
             return res.status(409).json({ message: 'User already exists with this email' });
         }
@@ -21,7 +21,7 @@ export const signUpUser = async (req, res) => {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
         // Create user
-        const newUser = await User.create({
+        const newUser = await userModal.create({
             username,
             email,
             password: hashedPassword,
@@ -49,7 +49,7 @@ export const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Please fill all the fields' });
         }
 
-        const user = await User.findOne({ where: { email } });
+        const user = await userModal.findOne({ where: { email } });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -58,10 +58,12 @@ export const loginUser = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
+        console.log(user.email, '------------------email')
+        console.log(user.id, '------------------id')
         const token = jwt.sign(
             {
-                email: User.email,
-                id: User.id,
+                email: user.email,
+                id: user.id,
             },
             process.env.JWT_SECRET,
             { expiresIn: "24h" }
