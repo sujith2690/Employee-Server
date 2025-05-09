@@ -1,5 +1,5 @@
 import db from '../models/index.js'; // Import db to access User model
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import pkg from "jsonwebtoken";
 import dotenv from 'dotenv';
 dotenv.config();
